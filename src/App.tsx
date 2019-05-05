@@ -10,7 +10,7 @@ const App: React.FC = () => {
     <div className="App">
       <SketchComponent sketch={testSketch}/>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
