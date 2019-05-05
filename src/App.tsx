@@ -1,24 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
+import p5 from 'p5'
+
 import './App.css';
+import {SketchWrapper} from './lib/Sketch'
+import {Test, TestSketch} from "./sketches/test/TestSketch.tsx";
 
 const App: React.FC = () => {
+
+  const s = new TestSketch()
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <h1>Hello</h1>
+
+      <SketchWrapper
+        { ... Test}
+      />
+      <SketchWrapper setup={((p: p5) => {
+
+      })} draw={(p: p5) => {
+
+        p.ellipse(100, 100, 100, 100)
+      }}/>
+
+      <h1>goodbyte</h1>
+
     </div>
   );
 }
