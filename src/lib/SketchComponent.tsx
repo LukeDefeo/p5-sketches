@@ -6,6 +6,8 @@ export interface SketchProps {
   sketch: (p: p5) => void,
 }
 
+//todo need to figure out how to set canva size based on parent divs sizing
+//for now size is set in the sketch itself
 export class SketchComponent extends Component<SketchProps> {
   private p5Instance?: p5;
 

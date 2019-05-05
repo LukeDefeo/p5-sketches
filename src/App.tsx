@@ -1,14 +1,14 @@
 import React from 'react';
 
 import './App.css';
-import {testSketch} from "./sketches/test/TestSketch";
 import {SketchComponent} from "./lib/SketchComponent";
+import {recamanSketch} from "./sketches/recaman/recaman";
 
 const App: React.FC = () => {
 
   return (
     <div className="App">
-      <SketchComponent sketch={testSketch}/>
+      <SketchComponent sketch={recamanSketch}/>
     </div>
   )
 }
