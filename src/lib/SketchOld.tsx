@@ -9,7 +9,7 @@ export interface SketchProps {
 
 }
 
-export class SketchWrapper extends Component<SketchProps> {
+export class SketchWrapperOld extends Component<SketchProps> {
   private p5Instance?: p5;
 
   componentDidMount() {
