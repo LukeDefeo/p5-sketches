@@ -2,53 +2,23 @@ import p5 from "p5";
 import {max} from 'lodash/fp'
 import {partition, seq} from "./shared";
 
-const basePointsPerCircle = 100
-
 
 let x = 0
 console.log(x)
-
-const calcPoint = (p: p5, progress: number, center: p5.Vector, radius: number, isClockWise: boolean) => {
-
-  let startDegree: number = 0
-  let endDegree: number = 0
-
-  if (isClockWise) {
-    // startDegree = 0
-    endDegree = p.map(progress, 0, basePointsPerCircle, 0, p.PI)
-  } else {
-    // startDegree = 0
-    // if (animated) {
-    //   endDegree = p.map(progress, 0, basePointsPerCircle,  p.PI, 2 * p.PI)
-    // } else  {
-    //   endDegree = p.PI
-    // }
-  }
-
-  const pointX = radius * p.cos(endDegree)
-  const pointY = radius * p.sin(endDegree)
-
-  return p.createVector(pointX, pointY).add(center.x,center.y)
-
-}
-
 export const recamanSketchAnimated = (p: p5) => {
 
   let biggest = max(seq);
-  const scaleFactor = p.width / biggest! //why doesnt this one work?
+  const scaleFactor = p.width / biggest!
 
+  const basePointsPerCircle = 100
   let pointsPerCircle = basePointsPerCircle
   let progress = 0
   let currentIdx = 0
-
 
   const drawCircle = (p: p5, idx: number, startX: number, endX: number, animated: boolean) => {
 
     let biggest = max(seq);
     const scaleFactor = p.width / biggest!
-
-    // let circleProgress = 0
-
 
     const scaledStartX = startX * scaleFactor
     const scaledEndX = endX * scaleFactor
@@ -56,29 +26,26 @@ export const recamanSketchAnimated = (p: p5) => {
     const scaledCenterY = p.height / 2
     const scaledDiameter = Math.abs(scaledEndX - scaledCenterX) * 2
 
-    // let startDegree: number
-    // let endDegree: number
-    //
+    let startDegree: number
+    let endDegree: number
 
-    const center = p.createVector(scaledCenterX, scaledCenterY)
-    const radius = scaledEndX - scaledCenterX
-
-
-    p.beginShape()
-    let points = []
-    for (let i = 0; i < progress; i++) {
-      const point = calcPoint(p, progress, center, radius, true)
-      // points.push(point)
-      p.vertex(point.x,point.y)
-      // circleProgress++
-
+    if (idx % 2 === 0) {
+      startDegree = p.PI
+      if (animated) {
+        endDegree = p.map(progress, 0, pointsPerCircle, p.PI, 2 * p.PI)
+      } else {
+        endDegree = 2 * p.PI
+      }
+    } else {
+      startDegree = 0
+      if (animated) {
+        endDegree = p.map(progress, 0, pointsPerCircle, 0, p.PI)
+      } else  {
+        endDegree = p.PI
+      }
     }
 
-    p.endShape("close")
-
-
-
-    // p.arc(scaledCenterX, scaledCenterY, scaledDiameter, scaledDiameter, startDegree, endDegree, "open", 500)
+    p.arc(scaledCenterX, scaledCenterY, scaledDiameter, scaledDiameter, startDegree, endDegree, "open", 500)
 
     //todo try curve
     // p.curve()
@@ -86,8 +53,8 @@ export const recamanSketchAnimated = (p: p5) => {
 
   const drawSequence = (p: p5, seq: number[]) => {
 
-    // console.log(max)
-    // console.log(seq)
+    console.log(max)
+    console.log(seq)
     let biggest = max(seq);
     const scaleFactor = p.width / biggest!
 
@@ -99,7 +66,7 @@ export const recamanSketchAnimated = (p: p5) => {
     p.noFill()
     p.stroke(0);
     p.strokeWeight(1);
-    // p.clear()
+    p.clear()
 
     // p.noStroke()
     partitionedSeq.forEach(([startX, endX], idx) => {
@@ -128,7 +95,8 @@ export const recamanSketchAnimated = (p: p5) => {
       // p.arc(scaledCenterX, scaledCenterY, scaledDiameter, scaledDiameter, startDegree, endDegree, "open", 500)
 
 
-      drawCircle(p, idx, startX, endX, idx === currentIdx)
+
+      drawCircle(p,idx,startX,endX, idx === currentIdx)
       progress++
       if (progress === pointsPerCircle) {
 
@@ -137,7 +105,7 @@ export const recamanSketchAnimated = (p: p5) => {
 
         currentIdx++
         progress = 0
-        pointsPerCircle = pointsPerCircle + basePointsPerCircle
+        pointsPerCircle  = pointsPerCircle + basePointsPerCircle
       }
 
 
@@ -147,11 +115,9 @@ export const recamanSketchAnimated = (p: p5) => {
 
   }
 
-
   p.setup = () => {
     p.createCanvas(p.windowWidth * 0.95, p.windowHeight * 0.95);
     p.frameRate(60)
-
     // drawNumberLine(p, seq)
 
   }
