@@ -1,7 +1,6 @@
 import p5 from "p5";
 import {max} from 'lodash/fp'
-import {partition, seq, seqLong} from "./shared";
-
+import {drawNumberLine, partition, seq, seqLong} from "./shared";
 
 type Direction =
   | "Clockwise"

@@ -4,23 +4,14 @@ import {partition, seq} from "./shared";
 
 export const recamanSketch = (p: p5) => {
 
-  p.preload = () => {
-
-  }
-
   function drawSequence(p: p5, seq: number[]) {
 
     let biggest = max(seq);
 
     const scaleFactor = p.width / biggest!
 
-    console.log(scaleFactor)
-
-    console.log(`Width ${p.width} biggest ${biggest} scale factor ${scaleFactor} `)
-
     const partitionedSeq = partition(seq, 2, 1)
 
-    p.noFill()
     partitionedSeq.forEach(([startX, endX], idx) => {
 
       const scaledStartX = startX * scaleFactor
@@ -41,17 +32,16 @@ export const recamanSketch = (p: p5) => {
         startDegree = 0
         endDegree = p.PI
       }
-      p.arc(scaledCenterX, scaledCenterY, scaledDiameter , scaledDiameter, startDegree, endDegree, "open")
+      p.arc(scaledCenterX, scaledCenterY, scaledDiameter, scaledDiameter, startDegree, endDegree, "open")
     })
 
 
   }
 
 
-
   p.setup = () => {
     p.createCanvas(p.windowWidth * 0.95, p.windowHeight * 0.95);
-
+    p.noFill()
     drawSequence(p, seq)
 
   }
