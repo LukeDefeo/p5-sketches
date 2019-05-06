@@ -2,7 +2,6 @@ import p5 from "p5";
 import {max} from 'lodash/fp'
 import {partition, seq} from "./shared";
 
-const basePointsPerCircle = 100
 
 type Direction =
   | "Clockwise"
@@ -12,138 +11,147 @@ type StartPosition =
   | "Left"
   | "Right"
 
-const calcPoint = (p: p5, progress: number, center: p5.Vector, radius: number, direction: Direction, startPosition: StartPosition) => {
+const calcPoint = (p: p5, progress: number, pointsPerCircle: number, center: p5.Vector, radius: number, direction: Direction, startPosition: StartPosition) => {
 
-  p.angleMode(p.DEGREES)
+  if (progress > pointsPerCircle) {
+    console.log(`out of range ${progress}  of ${pointsPerCircle}`)
+  }
 
   if (direction == "Clockwise" && startPosition === "Left") {
-    const degree = p.map(progress, 0, basePointsPerCircle, 180, 0)
+
+    const degree = p.map(progress, 0, pointsPerCircle, 180, 0,)
     const pointX = radius * p.cos(degree)
     const pointY = radius * p.sin(degree)
     return p.createVector(pointX, pointY).add(center.x, center.y)
-
   } else if (direction == "Clockwise" && startPosition === "Right") {
-    const degree = p.map(progress, 0, basePointsPerCircle, 0, 180)
 
+    const degree = p.map(progress, 0, pointsPerCircle, 0, 180)
     const pointX = radius * p.cos(degree)
     const pointY = radius * p.sin(degree)
     return p.createVector(pointX, pointY).add(center.x, center.y)
 
   } else if (direction == "AntiClockwise" && startPosition === "Left") {
-    const degree = p.map(progress, 0, basePointsPerCircle, 180, 360)
 
+    const degree = p.map(progress, 0, pointsPerCircle, 180, 360)
     const pointX = radius * p.cos(degree)
     const pointY = radius * p.sin(degree)
     return p.createVector(pointX, pointY).add(center.x, center.y)
 
   } else {
-    const degree = p.map(progress, 0, basePointsPerCircle, 360, 180)
+
+    const degree = p.map(progress, 0, pointsPerCircle, 360, 180)
     const pointX = radius * p.cos(degree)
     const pointY = radius * p.sin(degree)
     return p.createVector(pointX, pointY).add(center.x, center.y)
   }
-
-
 }
+
+const drawSemiCircle = (
+  p: p5,
+  idx: number,
+  startX: number,
+  endX: number,
+  pointsPerCircle: number,
+  progress: number,
+  animated: boolean
+) => {
+
+  if (animated) {
+    // console.log(`Drawing animated circle with ${progress} of   ${pointsPerCircle} ${endX - startX} diff`)
+  }
+
+  let biggest = max(seq);
+  const scaleFactor = p.width / biggest!
+
+  const scaledStartX = startX * scaleFactor
+  const scaledEndX = endX * scaleFactor
+  const scaledCenterX = (scaledStartX + scaledEndX) / 2
+  const scaledCenterY = p.height / 2
+
+  const center = p.createVector(scaledCenterX, scaledCenterY)
+  const radius = Math.abs(scaledEndX - scaledCenterX)
+
+  const endPoint = animated ? progress : pointsPerCircle
+
+  p.beginShape()
+
+  const direction = idx % 2 === 0 ? "AntiClockwise" : "Clockwise"
+  const startPosition = (endX < startX) ? "Right" : "Left"
+
+  for (let i = 0; i < endPoint; i++) {
+    const point = calcPoint(p, i, pointsPerCircle, center, radius, direction, startPosition)
+    p.vertex(point.x, point.y)
+  }
+
+  p.endShape()
+}
+
 
 export const recamanSketchAnimated = (p: p5) => {
 
-  let biggest = max(seq);
-  const scaleFactor = p.width / biggest! //why doesnt this one work?
-
-  let pointsPerCircle = basePointsPerCircle
-  let progress = 0
-  let currentIdx = 0
-
-  const drawCircle = (p: p5, idx: number, startX: number, endX: number, animated: boolean) => {
-
-    let biggest = max(seq);
-    const scaleFactor = p.width / biggest!
-
-    const scaledStartX = startX * scaleFactor
-    const scaledEndX = endX * scaleFactor
-    const scaledCenterX = (scaledStartX + scaledEndX) / 2
-    const scaledCenterY = p.height / 2
-
-    const center = p.createVector(scaledCenterX, scaledCenterY)
-    const radius = Math.abs(scaledEndX - scaledCenterX)
-
-    const endPoint = animated ? progress : basePointsPerCircle
-
-    p.beginShape()
-
-    for (let i = 0; i < endPoint; i++) {
-      const direction = idx % 2 === 0 ? "AntiClockwise" : "Clockwise";
-      const startPosition = (endX < startX) ? "Right" : "Left";
-      const point = calcPoint(p, i, center, radius, direction, startPosition)
-      // const point = calcPoint(p, i, center, radius, "Clockwise", "Right")
-      p.vertex(point.x, point.y)
-
-    }
-
-    p.endShape()
-
-
-    // p.arc(scaledCenterX, scaledCenterY, scaledDiameter, scaledDiameter, startDegree, endDegree, "open", 500)
-
-    //todo try curve
-    // p.curve()
-  }
-
-
-
+  let animatedCircleProgress = 0
+  let animatedCircleIndex = 0
 
   const drawSequence = (p: p5, seq: number[]) => {
 
-    // console.log(max)
-    // console.log(seq)
-    let biggest = max(seq);
-    const scaleFactor = p.width / biggest!
-
-    // console.log(scaleFactor)
-    // console.log(`Width ${p.width} biggest ${biggest} scale factor ${scaleFactor} `)
-
     const partitionedSeq = partition(seq, 2, 1)
 
-    p.noFill()
-    p.stroke(0);
-    p.strokeWeight(1);
-    p.clear()
 
-    // p.noStroke()
+
+
     partitionedSeq.forEach(([startX, endX], idx) => {
 
-
-      // if (idx > 1) {
-      //   return
-      // }
-      if (idx > currentIdx) {
+      if (idx > animatedCircleIndex) {
         return
       }
 
+      // console.log(`past filter drawing ${idx}`)
 
-      drawCircle(p, idx, startX, endX, idx === currentIdx)
-      if (progress === pointsPerCircle) {
+      let biggest = max(seq);
+      const scaleFactor = p.width / biggest!
+      const totalPointsInSemiCircle = scaleFactor * Math.abs(endX - startX) * p.PI
+      const animating = idx === animatedCircleIndex;
 
-        currentIdx++
-        progress = 0
-        // pointsPerCircle = pointsPerCircle + basePointsPerCircle
+      drawSemiCircle(
+        p,
+        idx,
+        startX,
+        endX,
+        totalPointsInSemiCircle,
+        animatedCircleProgress,
+        animating
+      )
+
+      console.log(`Scale factor  ${scaleFactor}`)
+
+      if (animating){
+        // console.log(`about to draw circle with idx ${idx} animated idx ${animatedCircleIndex}  ${animatedCircleProgress}/${totalPointsInSemiCircle}`)
       }
 
-      progress++
+      if (animating) {
+        animatedCircleProgress++
+      }
+
+      if (animating && animatedCircleProgress > totalPointsInSemiCircle ) {
+        console.log(`resetting ${idx}`)
+        animatedCircleIndex++
+        animatedCircleProgress = 0
+      }
 
 
     })
-    // progress++
 
   }
 
   p.setup = () => {
+    p.noFill()
+    p.stroke(0);
+    p.strokeWeight(1);
+    p.angleMode(p.DEGREES)
     p.createCanvas(p.windowWidth * 0.95, p.windowHeight * 0.95);
-    p.frameRate(40)
+    p.frameRate(60)
 
     // drawNumberLine(p, seq)
-
   }
 
   p.windowResized = () => {
@@ -153,6 +161,7 @@ export const recamanSketchAnimated = (p: p5) => {
 
   p.draw = () => {
 
+    p.clear()
     drawSequence(p, seq)
     // drawNumberLine(p, seq)
 
@@ -170,9 +179,9 @@ export const recamanSketchAnimated = (p: p5) => {
 
     const ratio = p.width / biggest!
 
-    for (let i = 0; i < biggest! + 1; i++ ) {
-      p.line(drawPoint, lineY, drawPoint,lineY + 10)
-      p.text(i.toString(),drawPoint - 5,lineY + 20)
+    for (let i = 0; i < biggest! + 1; i++) {
+      p.line(drawPoint, lineY, drawPoint, lineY + 10)
+      p.text(i.toString(), drawPoint - 5, lineY + 20)
       drawPoint += ratio
     }
 
