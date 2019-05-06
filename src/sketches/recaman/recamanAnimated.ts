@@ -11,39 +11,31 @@ type StartPosition =
   | "Left"
   | "Right"
 
-const calcPoint = (p: p5, progress: number, pointsPerCircle: number, center: p5.Vector, radius: number, direction: Direction, startPosition: StartPosition) => {
+const calcPoint = (
+  p: p5,
+  progress: number,
+  pointsPerCircle: number,
+  center: p5.Vector,
+  radius: number,
+  direction: Direction,
+  startPosition: StartPosition
+) => {
 
-  if (progress > pointsPerCircle) {
-    console.log(`out of range ${progress}  of ${pointsPerCircle}`)
-  }
+  let degree
 
   if (direction == "Clockwise" && startPosition === "Left") {
-
-    const degree = p.map(progress, 0, pointsPerCircle, 180, 0,)
-    const pointX = radius * p.cos(degree)
-    const pointY = radius * p.sin(degree)
-    return p.createVector(pointX, pointY).add(center.x, center.y)
+    degree = p.map(progress, 0, pointsPerCircle, 180, 0,)
   } else if (direction == "Clockwise" && startPosition === "Right") {
-
-    const degree = p.map(progress, 0, pointsPerCircle, 0, 180)
-    const pointX = radius * p.cos(degree)
-    const pointY = radius * p.sin(degree)
-    return p.createVector(pointX, pointY).add(center.x, center.y)
-
+    degree = p.map(progress, 0, pointsPerCircle, 0, 180)
   } else if (direction == "AntiClockwise" && startPosition === "Left") {
-
-    const degree = p.map(progress, 0, pointsPerCircle, 180, 360)
-    const pointX = radius * p.cos(degree)
-    const pointY = radius * p.sin(degree)
-    return p.createVector(pointX, pointY).add(center.x, center.y)
-
+    degree = p.map(progress, 0, pointsPerCircle, 180, 360)
   } else {
-
-    const degree = p.map(progress, 0, pointsPerCircle, 360, 180)
-    const pointX = radius * p.cos(degree)
-    const pointY = radius * p.sin(degree)
-    return p.createVector(pointX, pointY).add(center.x, center.y)
+    degree = p.map(progress, 0, pointsPerCircle, 360, 180)
   }
+
+  const pointX = radius * p.cos(degree)
+  const pointY = radius * p.sin(degree)
+  return p.createVector(pointX, pointY).add(center.x, center.y)
 }
 
 const drawSemiCircle = (
@@ -55,10 +47,6 @@ const drawSemiCircle = (
   progress: number,
   animated: boolean
 ) => {
-
-  if (animated) {
-    // console.log(`Drawing animated circle with ${progress} of   ${pointsPerCircle} ${endX - startX} diff`)
-  }
 
   let biggest = max(seq);
   const scaleFactor = p.width / biggest!
@@ -96,16 +84,12 @@ export const recamanSketchAnimated = (p: p5) => {
 
     const partitionedSeq = partition(seq, 2, 1)
 
-
-
-
     partitionedSeq.forEach(([startX, endX], idx) => {
 
       if (idx > animatedCircleIndex) {
         return
       }
 
-      // console.log(`past filter drawing ${idx}`)
 
       let biggest = max(seq);
       const scaleFactor = p.width / biggest!
@@ -124,20 +108,15 @@ export const recamanSketchAnimated = (p: p5) => {
 
       console.log(`Scale factor  ${scaleFactor}`)
 
-      if (animating){
-        // console.log(`about to draw circle with idx ${idx} animated idx ${animatedCircleIndex}  ${animatedCircleProgress}/${totalPointsInSemiCircle}`)
-      }
-
       if (animating) {
         animatedCircleProgress++
-      }
 
-      if (animating && animatedCircleProgress > totalPointsInSemiCircle ) {
-        console.log(`resetting ${idx}`)
-        animatedCircleIndex++
-        animatedCircleProgress = 0
+        if (animatedCircleProgress > totalPointsInSemiCircle) {
+          console.log(`resetting ${idx}`)
+          animatedCircleIndex++
+          animatedCircleProgress = 0
+        }
       }
-
 
     })
 
