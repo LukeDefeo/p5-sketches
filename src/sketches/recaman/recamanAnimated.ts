@@ -1,6 +1,6 @@
 import p5 from "p5";
 import {max} from 'lodash/fp'
-import {partition, seq} from "./shared";
+import {partition, seq, seqLong} from "./shared";
 
 
 type Direction =
@@ -40,6 +40,7 @@ const calcPoint = (
 
 const drawSemiCircle = (
   p: p5,
+  scaleFactor: number,
   idx: number,
   startX: number,
   endX: number,
@@ -47,9 +48,6 @@ const drawSemiCircle = (
   progress: number,
   animated: boolean
 ) => {
-
-  let biggest = max(seq);
-  const scaleFactor = p.width / biggest!
 
   const scaledStartX = startX * scaleFactor
   const scaledEndX = endX * scaleFactor
@@ -80,9 +78,12 @@ export const recamanSketchAnimated = (p: p5) => {
   let animatedCircleProgress = 0
   let animatedCircleIndex = 0
 
-  const drawSequence = (p: p5, seq: number[]) => {
+  const drawSequence = (p: p5, sequence: number[]) => {
 
-    const partitionedSeq = partition(seq, 2, 1)
+    let biggest = max(sequence);
+    const scaleFactor = p.width / biggest!
+
+    const partitionedSeq = partition(sequence, 2, 1)
 
     partitionedSeq.forEach(([startX, endX], idx) => {
 
@@ -90,14 +91,12 @@ export const recamanSketchAnimated = (p: p5) => {
         return
       }
 
-
-      let biggest = max(seq);
-      const scaleFactor = p.width / biggest!
       const totalPointsInSemiCircle = scaleFactor * Math.abs(endX - startX) * p.PI
       const animating = idx === animatedCircleIndex;
 
       drawSemiCircle(
         p,
+        scaleFactor,
         idx,
         startX,
         endX,
@@ -106,13 +105,13 @@ export const recamanSketchAnimated = (p: p5) => {
         animating
       )
 
-      console.log(`Scale factor  ${scaleFactor}`)
 
       if (animating) {
-        animatedCircleProgress++
+        const speed = 100
+        animatedCircleProgress += speed
+        // animatedCircleProgress++
 
         if (animatedCircleProgress > totalPointsInSemiCircle) {
-          console.log(`resetting ${idx}`)
           animatedCircleIndex++
           animatedCircleProgress = 0
         }
@@ -140,29 +139,10 @@ export const recamanSketchAnimated = (p: p5) => {
 
   p.draw = () => {
 
+    const s = seqLong
     p.clear()
-    drawSequence(p, seq)
-    // drawNumberLine(p, seq)
-
-  }
-
-  const drawNumberLine = (p: p5, seq: number[]) => {
-    let lineY = p.height / 2;
-    p.line(0, lineY, p.width, lineY)
-
-
-    //todo how to draw everything with padding?
-    let drawPoint = 0
-
-    let biggest = max(seq);
-
-    const ratio = p.width / biggest!
-
-    for (let i = 0; i < biggest! + 1; i++) {
-      p.line(drawPoint, lineY, drawPoint, lineY + 10)
-      p.text(i.toString(), drawPoint - 5, lineY + 20)
-      drawPoint += ratio
-    }
+    drawSequence(p, s)
+    // drawNumberLine(p, s)
 
   }
 
