@@ -19,8 +19,17 @@ export const testSketch = (p: p5) => {
   }
 
   p.draw = () => {
-    p.background(100);
-    p.ellipse(400, 100, 240, 100)
+    p.beginShape()
+
+    const offset = p.createVector(100,100)
+    p.vertex(100,100)
+    p.vertex(200,200)
+    p.vertex(200,100)
+    p.vertex(100,200)
+
+    // p.background(100);
+    // p.ellipse(400, 100, 240, 100)
+    p.endShape(p.CLOSE)
   }
 
   return
