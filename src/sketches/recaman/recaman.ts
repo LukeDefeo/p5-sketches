@@ -2,7 +2,7 @@ import p5 from "p5";
 import {max} from 'lodash/fp'
 import {partition, seq} from "./shared";
 
-export const recamanSketch = (p: p5) => {
+export const RecamanSketch = (p: p5) => {
 
   function drawSequence(p: p5, seq: number[]) {
 

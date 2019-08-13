@@ -37,7 +37,7 @@ function drawSequenceNoColor(p: p5, sequence: number[]) {
   })
 }
 
-export const recamanSketchColor = (p: p5) => {
+export const RecamanSketchColor = (p: p5) => {
 
   const drawSequence = (p: p5, sequence: number[]) => {
 

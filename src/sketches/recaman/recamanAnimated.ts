@@ -72,7 +72,7 @@ const drawSemiCircle = (
 }
 
 
-export const recamanSketchAnimated = (p: p5) => {
+export const RecamanSketchAnimated = (p: p5) => {
 
   let animatedCircleProgress = 0
   let animatedCircleIndex = 0
