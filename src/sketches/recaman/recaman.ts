@@ -51,10 +51,6 @@ export const RecamanSketch = (p: p5) => {
   }
 
 
-  p.draw = () => {
-
-
-  }
 
   return
 

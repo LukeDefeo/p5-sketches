@@ -13,8 +13,11 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <Link to="/sketches/recaman-basic">Basic Recaman</Link>
+      <Link to="/sketches/recaman-random">random Recaman</Link>
       <Link to="/sketches/recaman-animated">Animated Recaman</Link>
       <Link to="/sketches/recaman-color">Color Recaman</Link>
+      <Link to="/sketches/hue">Hue</Link>
+      <Link to="/sketches/natural-simulations/random-walker">Random walker</Link>
     </div>
   )
 }

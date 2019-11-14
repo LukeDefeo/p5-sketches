@@ -9,6 +9,10 @@ import {SketchComponent} from "./lib/SketchComponent";
 import {RecamanSketchColor} from "./sketches/recaman/recamanColor";
 import {RecamanSketch} from "./sketches/recaman/recaman";
 import {RecamanSketchAnimated} from "./sketches/recaman/recamanAnimated";
+import Hue from "./sketches/hue/Hue";
+import {RecamanRandomSketch} from "./sketches/recaman/recaman-random";
+import {RandomWalker} from "./sketches/natural-simulations/random-walker";
+
 
 const AppRouter = () => (
   <Router>
@@ -16,7 +20,10 @@ const AppRouter = () => (
     <Route
       exact path="/sketches/recaman-basic"
       render={() => <SketchComponent sketch={RecamanSketch}/>}
-
+    />
+    <Route
+      exact path="/sketches/recaman-random"
+      render={() => <SketchComponent sketch={RecamanRandomSketch}/>}
     />
     <Route
       exact path="/sketches/recaman-color"
@@ -25,6 +32,14 @@ const AppRouter = () => (
     <Route
       exact path="/sketches/recaman-animated"
       render={() => <SketchComponent sketch={RecamanSketchAnimated}/>}
+    />
+    <Route
+      exact path="/sketches/hue"
+      render={() => <Hue/>}
+    />
+    <Route
+      exact path="/sketches/natural-simulations/random-walker"
+      render={() => <SketchComponent sketch={RandomWalker}/>}
     />
   </Router>
 );
