@@ -1,7 +1,7 @@
 import p5Instance from "p5";
 import {rad} from "csx";
 
-export const HexagonSketch = (p: p5Instance) => {
+export const HexagonMultipleSketch = (p: p5Instance) => {
 
   const pythag = (x: number, y: number) => {
 
