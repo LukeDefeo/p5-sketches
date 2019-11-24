@@ -38,18 +38,42 @@ export const HexagonSketch = (p: p5Instance) => {
   const drawCutout = (centerX: number, centerY: number, radius: number, pos: number) => {
     const height = radius * (Math.sqrt(3) / 2)
 
+    //overwrites blend so white wins
+    p.blendMode(p.LIGHTEST)
+    p.fill("white")
+    p.push()
     p.translate(centerX, centerY)
     p.rotate(30)
     p.rotate(pos * 60)
-    p.fill("white")
     p.triangle(
       0, 0,
       -radius / 2, height,
       radius / 2, height
     )
 
+    p.pop()
+
   }
 
+
+  function drawhexagonWithCutOut() {
+    let lastCutout
+    for (let i = 0; i < 2; i++) {
+
+      const color = [p.random(0, 255), p.random(0, 255), p.random(0, 255)];
+      const offsetAngle = p.random([0, 60, 120, 180, 240])
+      const missing = p.random([0, 1, 2, 3, 4, 5])
+
+      drawHexagon(400, 400, 100, color, offsetAngle, [missing])
+
+      //for debugging
+      drawHexagon(600, 100 + (200 * i), 50, color, offsetAngle, [missing])
+
+      lastCutout = missing
+    }
+
+    drawCutout(400, 400, 100, lastCutout)
+  }
 
   p.setup = () => {
     p.createCanvas(p.windowWidth * 0.95, p.windowHeight * 0.95);
@@ -58,31 +82,8 @@ export const HexagonSketch = (p: p5Instance) => {
     p.frameRate(1)
     p.blendMode(p.DIFFERENCE)
 
-    let lastCutout
-    for (let i = 0; i < 2; i++) {
+    drawhexagonWithCutOut();
 
-
-
-      const color = [p.random(0, 255), p.random(0, 255), p.random(0, 255)];
-      const offsetAngle = p.random([0, 60, 120, 180, 240])
-      const missing = p.random([0, 1, 2, 3, 4, 5])
-
-      console.log('drawing', missing)
-      drawHexagon(400, 400, 100, color, offsetAngle, [missing])
-
-
-      p.push()
-
-      drawHexagon(600, 100 +( 200 * i), 50, color, offsetAngle, [missing])
-
-      p.pop()
-      lastCutout = missing
-    }
-
-    p.blendMode(p.LIGHTEST)
-    drawCutout(400, 400, 100, lastCutout)
-
-    console.log("done")
   }
 
 
