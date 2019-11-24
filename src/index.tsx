@@ -12,6 +12,7 @@ import {RecamanSketchAnimated} from "./sketches/recaman/recamanAnimated";
 import Hue from "./sketches/hue/Hue";
 import {RecamanRandomSketch} from "./sketches/recaman/recaman-random";
 import {RandomWalker} from "./sketches/natural-simulations/random-walker";
+import {HexagonSketch} from "./sketches/screenprinting/hexagon";
 
 
 const AppRouter = () => (
@@ -40,6 +41,11 @@ const AppRouter = () => (
     <Route
       exact path="/sketches/natural-simulations/random-walker"
       render={() => <SketchComponent sketch={RandomWalker}/>}
+    />
+
+    <Route
+      exact path="/sketches/screen-printing/hexagon-sketch"
+      render={() => <SketchComponent sketch={HexagonSketch}/>}
     />
   </Router>
 );

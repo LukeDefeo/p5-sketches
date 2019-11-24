@@ -18,6 +18,7 @@ const App: React.FC = () => {
       <Link to="/sketches/recaman-color">Color Recaman</Link>
       <Link to="/sketches/hue">Hue</Link>
       <Link to="/sketches/natural-simulations/random-walker">Random walker</Link>
+      <Link to="/sketches/screen-printing/hexagon-sketch">Hexagon sketch</Link>
     </div>
   )
 }
