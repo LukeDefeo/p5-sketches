@@ -3,14 +3,11 @@ import {rad} from "csx";
 
 export const HexagonMultipleSketch = (p: p5Instance) => {
 
-  const pythag = (x: number, y: number) => {
-
-    return p.sqrt((x * x) + (y * y))
-  }
 
   const drawHexagon = (centerX: number, centerY: number, radius: number, color: number[], offsetAngle: number, missing: number[]) => {
 
     const height = radius * (Math.sqrt(3) / 2)
+    p.blendMode(p.DIFFERENCE)
     p.push()
     p.translate(centerX, centerY)
     p.rotate(30)
@@ -56,7 +53,7 @@ export const HexagonMultipleSketch = (p: p5Instance) => {
   }
 
 
-  function drawhexagonWithCutOut(x: number, y: number) {
+  function drawhexagonWithCutOut(x: number, y: number, radius: number) {
     let lastCutout
     for (let i = 0; i < 2; i++) {
 
@@ -64,24 +61,53 @@ export const HexagonMultipleSketch = (p: p5Instance) => {
       const offsetAngle = p.random([0, 60, 120, 180, 240])
       const missing = p.random([0, 1, 2, 3, 4, 5])
 
-      drawHexagon(x, y, 100, color, offsetAngle, [missing])
-
-      //for debugging
-      drawHexagon(600, 100 + (200 * i), 50, color, offsetAngle, [missing])
+      drawHexagon(x, y, radius, color, offsetAngle, [missing])
 
       lastCutout = missing
     }
 
-    drawCutout(400, 400, 100, lastCutout)
+    drawCutout(x, y, radius, lastCutout)
   }
 
   p.setup = () => {
     p.createCanvas(p.windowWidth * 0.95, p.windowHeight * 0.95);
     p.angleMode('degrees')
     p.strokeWeight(0)
+    p.noStroke()
+
     p.frameRate(1)
-    p.blendMode(p.DIFFERENCE)
-    drawhexagonWithCutOut(400, 400);
+
+
+    const startX = p.windowHeight / 3
+    const startY = p.windowHeight / 3
+    const radius = 100
+    const height = radius * (Math.sqrt(3) / 2)
+
+
+    //first row
+    let x = startX
+    let y = startY
+    for (let i = 0; i < 3; i++) {
+      drawhexagonWithCutOut(x, y, radius)
+      x = x + height * 2
+    }
+
+    //second row
+    x = startX - height
+    y = startY + (height * 2)
+    for (let i = 0; i < 4; i++) {
+      drawhexagonWithCutOut(x, y, radius)
+      x = x + height * 2
+    }
+
+    //third row
+    x = startX
+    y = y + (height * 2)
+    for (let i = 0; i < 3; i++) {
+      drawhexagonWithCutOut(x, y, radius)
+      x = x + height * 2
+    }
+
 
   }
 
