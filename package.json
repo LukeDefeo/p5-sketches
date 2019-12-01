@@ -14,14 +14,17 @@
     "@types/react-router-dom": "^4.3.4"
   },
   "dependencies": {
+    "@types/react-color": "^3.0.1",
     "@types/react-grid-layout": "^0.16.7",
-    "chroma-js": "^2.0.4",
+    "chroma-js": "^2.1.0",
+    "color-blind": "^0.1.1",
     "csstips": "^1.1.0",
     "csx": "^9.1.0",
     "gradstop": "^2.2.3",
     "p5": "^0.8.0",
     "ramda": "^0.26.1",
     "react": "^16.8.6",
+    "react-color": "^2.17.3",
     "react-css-grid": "^2.0.0-0",
     "react-dom": "^16.8.6",
     "react-grid-layout": "^0.16.6",

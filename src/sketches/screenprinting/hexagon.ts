@@ -29,6 +29,7 @@ export const HexagonSketch = (p: p5Instance) => {
         -radius / 2, height,
         radius / 2, height
       )
+
       p.pop()
     }
 

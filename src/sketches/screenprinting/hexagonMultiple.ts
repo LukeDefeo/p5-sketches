@@ -7,7 +7,7 @@ export const HexagonMultipleSketch = (p: p5Instance) => {
   const drawHexagon = (centerX: number, centerY: number, radius: number, color: number[], offsetAngle: number, missing: number[]) => {
 
     const height = radius * (Math.sqrt(3) / 2)
-    p.blendMode(p.DIFFERENCE)
+    p.blendMode(p.SOFT_LIGHT)
     p.push()
     p.translate(centerX, centerY)
     p.rotate(30)
@@ -18,8 +18,8 @@ export const HexagonMultipleSketch = (p: p5Instance) => {
 
       p.push()
 
-      const [red, green, blue] = color
-      p.fill(red, green, blue)
+      // const [red, green, blue] = color
+      p.fill(color)
       p.rotate(60 * i)
       p.triangle(
         0, 0,
@@ -52,12 +52,14 @@ export const HexagonMultipleSketch = (p: p5Instance) => {
 
   }
 
+  const colours = ['#00429d', '#2e59a8', '#4771b2', '#5d8abd', '#73a2c6', '#8abccf', '#a5d5d8', '#c5eddf', '#ffffe0']
+
 
   function drawhexagonWithCutOut(x: number, y: number, radius: number) {
     let lastCutout
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 3; i++) {
 
-      const color = [p.random(0, 255), p.random(0, 255), p.random(0, 255)];
+      const color = [p.random(colours)];
       const offsetAngle = p.random([0, 60, 120, 180, 240])
       const missing = p.random([0, 1, 2, 3, 4, 5])
 

@@ -14,6 +14,7 @@ import {RecamanRandomSketch} from "./sketches/recaman/recaman-random";
 import {RandomWalker} from "./sketches/natural-simulations/random-walker";
 import {HexagonSketch} from "./sketches/screenprinting/hexagon";
 import {HexagonMultipleSketch} from "./sketches/screenprinting/hexagonMultiple";
+import {ColourPalette, PalleteWithPicker} from "./sketches/hue/Palette";
 
 
 const AppRouter = () => (
@@ -36,8 +37,12 @@ const AppRouter = () => (
       render={() => <SketchComponent sketch={RecamanSketchAnimated}/>}
     />
     <Route
-      exact path="/sketches/hue"
+      exact path="/sketches/hue/hue"
       render={() => <Hue/>}
+    />
+    <Route
+      exact path="/sketches/hue/color-palette"
+      render={() => <SketchComponent sketch={ColourPalette(['blue'])}/>}
     />
     <Route
       exact path="/sketches/natural-simulations/random-walker"
@@ -53,6 +58,11 @@ const AppRouter = () => (
       exact path="/sketches/screen-printing/hexagon-multiple"
       render={() => <SketchComponent sketch={HexagonMultipleSketch}/>}
     />
+
+      <Route
+        exact path="/sketches/hue/pallete-with-picker"
+        render={() => <PalleteWithPicker/>}
+      />
   </Router>
 );
 
