@@ -5,64 +5,12 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import {BrowserRouter as Router, Route} from "react-router-dom";
-import {SketchComponent} from "./lib/SketchComponent";
-import {RecamanSketchColor} from "./sketches/recaman/recamanColor";
-import {RecamanSketch} from "./sketches/recaman/recaman";
-import {RecamanSketchAnimated} from "./sketches/recaman/recamanAnimated";
-import Hue from "./sketches/hue/Hue";
-import {RecamanRandomSketch} from "./sketches/recaman/recaman-random";
-import {RandomWalker} from "./sketches/natural-simulations/random-walker";
-import {HexagonSketch} from "./sketches/screenprinting/hexagon";
-import {HexagonMultipleSketch} from "./sketches/screenprinting/hexagonMultiple";
-import {ColourPalette, PalleteWithPicker} from "./sketches/hue/Palette";
-
+import {pages} from "./pages";
 
 const AppRouter = () => (
   <Router>
     <Route exact path="/" component={App}/>
-    <Route
-      exact path="/sketches/recaman-basic"
-      render={() => <SketchComponent sketch={RecamanSketch}/>}
-    />
-    <Route
-      exact path="/sketches/recaman-random"
-      render={() => <SketchComponent sketch={RecamanRandomSketch}/>}
-    />
-    <Route
-      exact path="/sketches/recaman-color"
-      render={() => <SketchComponent sketch={RecamanSketchColor}/>}
-    />
-    <Route
-      exact path="/sketches/recaman-animated"
-      render={() => <SketchComponent sketch={RecamanSketchAnimated}/>}
-    />
-    <Route
-      exact path="/sketches/hue/hue"
-      render={() => <Hue/>}
-    />
-    <Route
-      exact path="/sketches/hue/color-palette"
-      render={() => <SketchComponent sketch={ColourPalette(['blue'])}/>}
-    />
-    <Route
-      exact path="/sketches/natural-simulations/random-walker"
-      render={() => <SketchComponent sketch={RandomWalker}/>}
-    />
-
-    <Route
-      exact path="/sketches/screen-printing/hexagon-sketch"
-      render={() => <SketchComponent sketch={HexagonSketch}/>}
-    />
-
-    <Route
-      exact path="/sketches/screen-printing/hexagon-multiple"
-      render={() => <SketchComponent sketch={HexagonMultipleSketch}/>}
-    />
-
-      <Route
-        exact path="/sketches/hue/pallete-with-picker"
-        render={() => <PalleteWithPicker/>}
-      />
+    {pages.map(({path, component}) => <Route exact path={path} render={() => component}/>)}
   </Router>
 );
 
