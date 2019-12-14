@@ -24,6 +24,7 @@ export const HexagonSketch = (p: p5Instance) => {
       const [red, green, blue] = color
       p.fill(red, green, blue)
       p.rotate(60 * i)
+
       p.triangle(
         0, 0,
         -radius / 2, height,

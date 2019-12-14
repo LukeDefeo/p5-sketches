@@ -9,6 +9,7 @@ import {HexagonSketch} from "./sketches/screenprinting/hexagon";
 import {HexagonMultipleSketch} from "./sketches/screenprinting/hexagonMultiple";
 import {RandomWalker} from "./sketches/natural-simulations/random-walker";
 import React from "react";
+import {RecursiveTrianglesSketch} from "./sketches/screenprinting/triangles";
 
 export const pages = [
   {
@@ -35,6 +36,9 @@ export const pages = [
   }, {
     path: "/sketches/screen-printing/hexagon-sketch",
     component: <SketchComponent sketch={HexagonSketch}/>
+  },{
+    path: "/sketches/screen-printing/recursive-triangles",
+    component: <SketchComponent sketch={RecursiveTrianglesSketch}/>
   }, {
     path: "/sketches/screen-printing/hexagon-multiple",
     component: <SketchComponent sketch={HexagonMultipleSketch}/>
