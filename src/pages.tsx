@@ -10,6 +10,8 @@ import {HexagonMultipleSketch} from "./sketches/screenprinting/hexagonMultiple";
 import {RandomWalker} from "./sketches/natural-simulations/random-walker";
 import React from "react";
 import {RecursiveChristmasSketch} from "./sketches/fractals/christmas";
+import {Balls} from "./sketches/particles/balls";
+import {SketchComponentClass} from "./lib/SketchComponentClass";
 
 export const pages = [
   {
@@ -45,5 +47,9 @@ export const pages = [
   }, {
     path: "/sketches/natural-simulations/random-walker",
     component: <SketchComponent sketch={RandomWalker}/>
+  },
+  {
+    path: "/sketches/particles/balls",
+    component: <SketchComponentClass sketchClass={new Balls()}/>
   },
 ]
