@@ -18,7 +18,7 @@ export function RecursiveChristmasSketch(p: p5Instance) {
 
     const nextSize = size / 2
 
-    if ((p.random(0, 1) > 0.6 || depth > maxDepth) && depth > minDepth) {
+    if ((p.random(0, 1) > 0.4 || depth > maxDepth) && depth > minDepth) {
       return
     }
     // top triangle
@@ -90,13 +90,7 @@ export function RecursiveChristmasSketch(p: p5Instance) {
 
   }
 
-  p.setup = () => {
-    p.createCanvas(p.windowWidth, p.windowHeight);
-    p.angleMode('degrees')
-    // p.strokeWeight(0)
-    p.frameRate(0)
-    // p.blendMode(p.DIFFERENCE)
-
+  function drawTree() {
     let triangleSize = 300;
     const triangleHeight = triangleSize * (Math.sqrt(3) / 2)
 
@@ -120,7 +114,23 @@ export function RecursiveChristmasSketch(p: p5Instance) {
     p.translate(0, stumpsize)
 
     quadtree(stumpsize, 1, 3)
+  }
 
+  p.setup = () => {
+    p.createCanvas(p.windowWidth, p.windowHeight);
+    p.angleMode('degrees')
+    // p.strokeWeight(0)
+    p.frameRate(0)
+    // p.blendMode(p.DIFFERENCE)
+
+    // drawTree()
+
+    p.noStroke()
+    p.fill('red')
+    p.translate(400,400)
+    p.arc(0,0,200,200,0,30)
+
+    // p.circle(0,0,200)
 
   }
 
